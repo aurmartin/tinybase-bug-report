@@ -1,4 +1,3 @@
-import React from "react"
 import { createMergeableStore } from "tinybase"
 import { createLocalPersister } from "tinybase/persisters/persister-browser"
 import { createWsSynchronizer } from "tinybase/synchronizers/synchronizer-ws-client"
@@ -10,6 +9,7 @@ import {
   Provider,
   useStore,
 } from "tinybase/ui-react"
+import { v4 as uuidv4 } from "uuid"
 
 function App() {
   const store = useCreateMergeableStore(() => createMergeableStore())
@@ -36,8 +36,9 @@ const Page = () => {
   const store = useStore()
 
   const populateStore = () => {
+    const longString = "a".repeat(1000)
     for (let i = 0; i < 1000; i++) {
-      store.setRow("table", i, { id: i, name: `Name ${i}` })
+      store.setRow("table", uuidv4(), { name: `Name ${i}`, longString })
     }
   }
 
